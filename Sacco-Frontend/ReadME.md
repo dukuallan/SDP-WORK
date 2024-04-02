@@ -1,4 +1,4 @@
-# Kimwanyi SACCO - Web Application
+# Web Application
 This project is to help bootstrap a JSF application.
 
 ## Getting Started

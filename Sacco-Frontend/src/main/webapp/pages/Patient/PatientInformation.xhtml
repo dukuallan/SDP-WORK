@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/californiatemplate/template.xhtml">
+
+    <ui:define name="content">
+        <h:form id="patientForm" enctype="multipart/form-data" style="height: auto" styleClass="card">
+            <p:growl id="messages" showDetail="true" />
+            <div class="p-grid ui-fluid" style="display:flex">
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Patient's Name</h5>
+                    <div class="ui-inputgroup">
+                        <p:inputText value="#{patients.patient.name}"/>
+                    </div>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Patient's Age</h5>
+                    <div class="ui-inputgroup">
+                        <p:inputText value="#{patients.patient.age}"/>
+                    </div>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Facility Type</h5>
+                    <p:selectOneMenu value="#{patients.patient.facilityType}">
+                        <f:selectItem itemLabel="Select Facility Type" itemValue="#{null}" />
+                        <f:selectItems value="#{patients.facilityTypes}" />
+                    </p:selectOneMenu>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>District</h5>
+                    <p:selectOneMenu value="#{patients.patient.district}">
+                        <f:selectItem itemLabel="Select District" itemValue="#{null}" />
+                        <f:selectItems value="#{patients.districts}" />
+                    </p:selectOneMenu>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Gender</h5>
+                    <p:selectOneMenu value="#{patients.patient.gender}">
+                        <f:selectItem itemLabel="Select Gender" itemValue="#{null}" />
+                        <f:selectItems value="#{patients.genders}" />
+                    </p:selectOneMenu>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Date Of Birth</h5>
+                    <p:calendar value="#{patients.patient.dateOfBirth}" pattern="MM/dd/yyyy" />
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Address</h5>
+                    <p:inputText value="#{patients.patient.address}"/>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Phone Number</h5>
+                    <p:inputMask value="#{patients.patient.phoneNumber}" mask="(999) 999-999999"/>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Email</h5>
+                    <p:inputText value="#{patients.patient.email}"/>
+                </div>
+
+
+                <!-- Additional medical information fields can be added here -->
+
+                <!-- Specific fields for visit information based on health facility type -->
+                <h:panelGroup rendered="#{patients.patient.facilityType eq 'CLINIC'}">
+                    <!-- Fields specific to clinic visits -->
+                    <div class="ui-col-12 ui-md-6 p-lg-3">
+                        <h5>Doctor's Name</h5>
+                        <p:inputText value="#{patients.patient.doctorName}"/>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{patientController.facilityType eq 'HOSPITAL'}">
+                    <!-- Fields specific to hospital visits -->
+                    <div class="ui-col-12 ui-md-6 p-lg-3">
+                        <h5>Admission Date</h5>
+                        <p:calendar value="#{patients.patient.admissionDate}" pattern="MM/dd/yyyy"/>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{patientController.facilityType eq 'PHARMACY'}">
+                    <!-- Fields specific to pharmacy visits -->
+                    <div class="ui-col-12 ui-md-6 p-lg-3">
+                        <h5>Prescription</h5>
+                        <p:inputTextarea value="#{patients.patient.prescription}" rows="5"/>
+                    </div>
+                </h:panelGroup>
+                <div class="ui-col-12 ui-md-12" style="margin-top: 15px; align-self: flex-end !important;">
+                    <div class="p-grid p-justify-center">
+                        <div class="p-col-3" >
+                            <p:commandButton value="Submit" actionListener="#{patients.savePatient}"
+                                             icon="pi pi-save" process="@form"
+                                             styleClass="ui-button ui-button-primary w-10rem" update="@form" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

@@ -29,6 +29,7 @@ public class Navigation {
     private final String approval= "/pages/admin/WithdrawApproval.xhtml";
     private final String approvalList= "/pages/admin/WithdrawApprovalRecords.xhtml";
     private final String adminLogin = "/pages/login/AdminLogin.xhtml";
+    private final String patients = "/pages/Patient/PatientInformation.xhtml";
 
     public String getDashboard() {
         return dashboard;
@@ -76,5 +77,9 @@ public class Navigation {
 
     public String getAdminLogin() {
         return adminLogin;
+    }
+
+    public String getPatients() {
+        return patients;
     }
 }

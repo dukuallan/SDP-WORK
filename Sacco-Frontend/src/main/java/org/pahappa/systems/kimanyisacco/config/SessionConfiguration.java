@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.pahappa.systems.kimanyisacco.models.Account;
 import org.pahappa.systems.kimanyisacco.models.Member;
+import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.models.Transaction;
 
 public class SessionConfiguration {
@@ -16,6 +17,7 @@ public class SessionConfiguration {
             configuration.addAnnotatedClass(Member.class);
             configuration.addAnnotatedClass(Account.class);
             configuration.addAnnotatedClass(Transaction.class);
+            configuration.addAnnotatedClass(Patient.class);
             return configuration.buildSessionFactory();
         }catch (Throwable e){
             System.err.println("Failed to create session Factory: " +e);

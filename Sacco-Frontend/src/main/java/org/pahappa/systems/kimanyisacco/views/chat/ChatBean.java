@@ -1,5 +1,12 @@
 package org.pahappa.systems.kimanyisacco.views.chat;
 
+import org.pahappa.systems.kimanyisacco.models.chat.Chat;
+import org.pahappa.systems.kimanyisacco.models.users.User;
+import org.pahappa.systems.kimanyisacco.services.ChatService;
+import org.pahappa.systems.kimanyisacco.services.UserService;
+import org.pahappa.systems.kimanyisacco.services.impl.ChatServiceImpl;
+import org.pahappa.systems.kimanyisacco.services.impl.UserServiceImpl;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,26 +19,20 @@ import java.util.List;
 @ViewScoped
 public class ChatBean{
     private String currentUser;
-    private List<String> receivers;
-    private List<String> selectedReceivers;
-    private List<Message> messages;
+    private List<User> receivers=new ArrayList<>();;
+    private List<User> selectedReceivers= new ArrayList<>();
+    private UserService userService;
+    private ChatService chatService;
+    private List<Chat> chats=new ArrayList<>();
 
  @PostConstruct
  public void init() {
-     this.messages=new ArrayList<>();
-     this.receivers = new ArrayList<>();
-     this.selectedReceivers = new ArrayList<>();
+     this.userService =new UserServiceImpl();
+     this.chatService = new ChatServiceImpl();
+     this.receivers = userService.getAllUsers();
+     this.chats=chatService.getAllChats();
      this.currentUser = "admin";
-     receivers.add("user");
-     receivers.add("admin");
-     receivers.add("Accountant");
-     receivers.add("Manager");
-     messages.add(new Message("admin", "user", LocalDateTime.now(), "Hello, how are you?"));
-     messages.add(new Message("user", "admin", LocalDateTime.now(), "I am fine, thank you"));
-     messages.add(new Message("admin", "user", LocalDateTime.now(), "I am doing great. Thank you"));
-     messages.add(new Message("user", "admin", LocalDateTime.now(), "I am doing good. How about you?"));
-     messages.add(new Message("admin", "user", LocalDateTime.now(), "I am doing good. Hope you are doing great?"));
-     messages.add(new Message("user", "admin", LocalDateTime.now(), "yaaa u a right. But how is the work?"));
+
  }
     public void sendMessage() {
 
@@ -39,14 +40,6 @@ public class ChatBean{
     public String getFormattedSentTime(LocalDateTime sentTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return sentTime.format(formatter);
-    }
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
     }
 
     public String getCurrentUser() {
@@ -57,19 +50,27 @@ public class ChatBean{
         this.currentUser = currentUser;
     }
 
-    public List<String> getReceivers() {
+    public List<User> getReceivers() {
         return receivers;
     }
 
-    public void setReceivers(List<String> receivers) {
+    public void setReceivers(List<User> receivers) {
         this.receivers = receivers;
     }
 
-    public List<String> getSelectedReceivers() {
+    public List<User> getSelectedReceivers() {
         return selectedReceivers;
     }
 
-    public void setSelectedReceivers(List<String> selectedReceivers) {
+    public void setSelectedReceivers(List<User> selectedReceivers) {
         this.selectedReceivers = selectedReceivers;
+    }
+
+    public List<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(List<Chat> chats) {
+        this.chats = chats;
     }
 }

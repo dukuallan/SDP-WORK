@@ -12,13 +12,13 @@
             <p:growl id="messages" showDetail="true" />
             <div class="widget-chat card justify-content-center m-4">
                 <p:scrollPanel styleClass="border-0 " style="height: 90%">
-                    <ui:repeat var="msg" value="#{chatBean.messages}">
+                    <ui:repeat var="msg" value="#{chatBean.chats}">
                         <div class="msg1-card #{msg.sender == chatBean.currentUser ? 'msg1-own' : 'msg1-from'} m-4">
                             <div class="msg1-header">
                                 <h5>From: #{msg.sender} Sent: #{chatBean.getFormattedSentTime(msg.sentTime)}</h5>
                             </div>
                             <div class="msg1-body">
-                                <p:outputLabel>#{msg.content}</p:outputLabel>
+                                <p:outputLabel>#{msg.description}</p:outputLabel>
                             </div>
                         </div>
                     </ui:repeat>
@@ -32,10 +32,10 @@
                                            filter="true"
                                           filterMatchMode="contains" filterNormalize="true"
                                           showCheckbox="true" styleClass="manymenu-advanced">
-                            <f:selectItems value="#{chatBean.receivers}" var="rec" itemLabel="#{rec}"
+                            <f:selectItems value="#{chatBean.receivers}" var="rec" itemLabel="#{rec.lastname} #{rec.department}"
                                            itemValue="#{rec}"/>
                             <p:column>
-                                <h:outputText value="#{rec}"/>
+                                <h:outputText value="#{rec.lastname} #{rec.department}}"/>
                             </p:column>
                         </p:selectManyMenu>
                     </div>

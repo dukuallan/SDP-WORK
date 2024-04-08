@@ -6,6 +6,7 @@ import org.pahappa.systems.kimanyisacco.models.Account;
 import org.pahappa.systems.kimanyisacco.models.Member;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.models.Transaction;
+import org.pahappa.systems.kimanyisacco.models.*;
 
 public class SessionConfiguration {
     private final static SessionFactory sessionFactory = buildSessionFactory();
@@ -17,6 +18,9 @@ public class SessionConfiguration {
             configuration.addAnnotatedClass(Member.class);
             configuration.addAnnotatedClass(Account.class);
             configuration.addAnnotatedClass(Transaction.class);
+            configuration.addAnnotatedClass(AccountPayable.class);
+            configuration.addAnnotatedClass(GeneralLedger.class);
+            configuration.addAnnotatedClass(AccountReceivable.class);
             configuration.addAnnotatedClass(Patient.class);
             return configuration.buildSessionFactory();
         }catch (Throwable e){

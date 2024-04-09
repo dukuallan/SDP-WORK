@@ -36,13 +36,13 @@ public class UserRegisterView {
         try {
             userService.saveUser(user);
             resetModal();
-            MessageComposer.compose("Success", "User added to the system");
+            String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+            redirect(baseUrl,Hyperlinks.users);
         }catch (Exception e){
             MessageComposer.warn("Failed",e.getMessage());
         }
     }
     public void editUser(User user){
-
         System.out.println("User to edit: "+user.getLastname());
         System.out.println("User id: "+user.getUser_id());
         setSelectedObjectId(user.getUser_id());
@@ -56,7 +56,7 @@ public void updateUser(){
     System.out.println("Object id: "+user.getUser_id());
     System.out.println("Object parameters"+user.getLastname());
     this.user.setUser_id(selectedObjectId);
-    System.out.println("Object id: "+user.getUser_id()+"selected boject "+selectedObjectId);
+    System.out.println("Object id: "+user.getUser_id()+"selected object "+selectedObjectId);
         boolean update=userService.updateUser(user);
         if(update){
             resetModal();

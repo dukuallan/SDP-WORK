@@ -31,8 +31,9 @@
                 </div>
             </div>
             <div class="p-col-12 p-lg-12 p-md-12">
-                <h:outputText value="Username"/>
+                <h:outputText value="UserEmail"/>
                 <p:inputText id="j_username" required="true" styleClass="h-3rem"
+                             value="#{loginForm.user.email}"
                              placeholder="Enter username">
                     <p:ajax update="j_username"/>
                 </p:inputText>
@@ -40,6 +41,7 @@
             <div class="p-col-12 p-lg-12 p-md-12">
                 <h:outputText value="Password"/>
                 <p:inputText id="j_password" required="true" styleClass="h-3rem"
+                             value="#{loginForm.user.password}"
                              placeholder=" Enter Password" type="password">
                     <p:ajax update="j_password"/>
                 </p:inputText>
@@ -50,10 +52,10 @@
                 <a href="#">Reset Password</a>
             </div>
             <div class="p-col-12 p-lg-12 p-md-12 flex p-jc-end">
-                <p:linkButton id="login" value="Login" ajax="false"
+                <p:commandButton id="login" value="Login" ajax="false"
                                  styleClass="ui-button ui-button-info"
                                  validateClient="true" update="loginForm"
-                              outcome="/pages/dashboard/Dashboard.xhtml"
+                              action="#{loginForm.doLogin()}"
                                  />
             </div>
         </div>

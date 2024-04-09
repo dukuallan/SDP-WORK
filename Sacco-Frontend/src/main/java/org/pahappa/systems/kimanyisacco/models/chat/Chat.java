@@ -4,6 +4,8 @@ import org.pahappa.systems.kimanyisacco.models.users.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 @Entity
 @Table(name = "chats")
 public class Chat {
@@ -53,5 +55,18 @@ public class Chat {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Chat)) return false;
+        Chat chat = (Chat) o;
+        return Objects.equals(getSender(), chat.getSender()) && Objects.equals(getReceiver(), chat.getReceiver()) && Objects.equals(getSentTime(), chat.getSentTime()) && Objects.equals(getDescription(), chat.getDescription()) && Objects.equals(getId(), chat.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSender(), getReceiver(), getSentTime(), getDescription(), getId());
     }
 }

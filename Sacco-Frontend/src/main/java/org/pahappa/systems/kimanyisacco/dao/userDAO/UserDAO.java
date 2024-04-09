@@ -57,7 +57,7 @@ public class UserDAO {
     }
 
     // Disabling a user of the system
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(String email) {
         Transaction transaction = null;
         try {
             Session session = SessionConfiguration.getSessionFactory().openSession();
@@ -66,7 +66,7 @@ public class UserDAO {
             // Create a criteria instance for the User class
             Criteria criteria = session.createCriteria(User.class);
             // create criteria to check the account for the member
-            criteria.add(Restrictions.eq("userId", userId));
+            criteria.add(Restrictions.eq("email", email));
             // Get the user (if found) based on the criteria
             User user = (User) criteria.uniqueResult();
             if ((user != null)) {
@@ -74,6 +74,7 @@ public class UserDAO {
                 user.setStatus(1);
                 session.update(user);
                 transaction.commit();
+                System.out.println("User deleted form the hibernate config");
                 return true;
             } else {
                 return false;
@@ -153,6 +154,20 @@ public class UserDAO {
             }
             e.printStackTrace();
             return false;
+        }
+    }
+    public User getUserByEmail(String email) {
+        Session session = SessionConfiguration.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM User WHERE email = :email");
+        query.setParameter("email", email);
+        try {
+            return (User) query.uniqueResult();
+        }catch (Exception e){
+            return null;
+        }finally {
+            if (session.isOpen()) {
+                session.close();
+            }
         }
     }
 }

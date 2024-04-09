@@ -22,7 +22,7 @@ public class UserView {
         }
 
         public void deleteUser(User user) {
-            boolean check = userService.deleteUser(user.getUser_id());
+            boolean check = userService.deleteUser(user.getEmail());
             if (check) {
                 userList.remove(user);
                MessageComposer.compose("Success","User removed from the system");

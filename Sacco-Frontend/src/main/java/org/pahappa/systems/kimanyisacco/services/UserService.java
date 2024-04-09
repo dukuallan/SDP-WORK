@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService {
     void saveUser(User user) throws Exception;
     List<User> getAllUsers();
-    boolean deleteUser(Long user_id);
+    boolean deleteUser(String email);
 
     User getUser(Long id);
 
@@ -15,4 +15,5 @@ public interface UserService {
 
     boolean checkEmail(String email);
     boolean checkPhone(String phone);
+    User getUserByEmail(String email);
 }

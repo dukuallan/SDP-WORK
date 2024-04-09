@@ -6,23 +6,25 @@ import org.pahappa.systems.kimanyisacco.services.ChatService;
 import org.pahappa.systems.kimanyisacco.services.UserService;
 import org.pahappa.systems.kimanyisacco.services.impl.ChatServiceImpl;
 import org.pahappa.systems.kimanyisacco.services.impl.UserServiceImpl;
+import org.pahappa.systems.kimanyisacco.views.Messages.MessageComposer;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ChatBean{
-    private String currentUser;
     private List<User> receivers=new ArrayList<>();;
     private List<User> selectedReceivers= new ArrayList<>();
     private UserService userService;
     private ChatService chatService;
+    private Chat chat;
     private List<Chat> chats=new ArrayList<>();
 
  @PostConstruct
@@ -30,25 +32,35 @@ public class ChatBean{
      this.userService =new UserServiceImpl();
      this.chatService = new ChatServiceImpl();
      this.receivers = userService.getAllUsers();
-     this.chats=chatService.getAllChats();
-     this.currentUser = "admin";
+     this.chats=getChatsByUser();
+     this.chat=new Chat();
 
  }
     public void sendMessage() {
-
+     LocalDateTime sent= LocalDateTime.now();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        User user1 = (User) facesContext.getExternalContext().getSessionMap().get("User");
+        System.out.println("selected users size "+selectedReceivers.size());
+     if(user1 !=null && !selectedReceivers.isEmpty()) {
+         for (User user : selectedReceivers) {
+             System.out.println("Logged in user "+user1.getLastname());
+             chat.setSender(user1);
+             chat.setSentTime(sent);
+             try {
+                 chatService.saveChat(chat);
+             } catch (Exception e) {
+                 MessageComposer.warn("Failure!", "Chat not saved to the database");
+             }
+         }
+         MessageComposer.compose("Success","Message sent to the receivers");
+     }else
+         MessageComposer.compose("Failed","No user in the session!");
     }
     public String getFormattedSentTime(LocalDateTime sentTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return sentTime.format(formatter);
     }
 
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
 
     public List<User> getReceivers() {
         return receivers;
@@ -72,5 +84,18 @@ public class ChatBean{
 
     public void setChats(List<Chat> chats) {
         this.chats = chats;
+    }
+    public List<Chat> getChatsByUser(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        User user = (User) facesContext.getExternalContext().getSessionMap().get("User");
+        return chatService.getAllChats(user);
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 }

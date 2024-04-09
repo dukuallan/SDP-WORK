@@ -1,16 +1,16 @@
 package org.pahappa.systems.kimanyisacco.services.impl;
 
-import org.pahappa.systems.kimanyisacco.dao.PatientDao;
+import org.pahappa.systems.kimanyisacco.constants.Medication;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.services.PatientService;
+import org.pahappa.systems.kimanyisacco.services.PharmacyPatientService;
 
 import java.util.List;
 
-public class PatientServiceImpl implements PatientService {
-    private PatientDao patientDao = new PatientDao();
+public class PharmacyPatientServiceImpl implements PharmacyPatientService {
     @Override
-    public void savePatient(Patient patient){
-        patientDao.save(patient);
+    public void savePatient(Patient patient) {
+
     }
 
     @Override
@@ -46,5 +46,15 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public int getTotalPatientCount() {
         return 0;
+    }
+
+    @Override
+    public void dispenseMedication(long patientId, List<Medication> medications) {
+
+    }
+
+    @Override
+    public List<Patient> getMedicationDispensedPatients() {
+        return null;
     }
 }

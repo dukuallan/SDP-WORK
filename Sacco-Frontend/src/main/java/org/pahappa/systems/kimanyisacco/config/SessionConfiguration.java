@@ -2,6 +2,9 @@ package org.pahappa.systems.kimanyisacco.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.pahappa.systems.kimanyisacco.models.account.AccountPayable;
+import org.pahappa.systems.kimanyisacco.models.account.AccountReceivable;
+import org.pahappa.systems.kimanyisacco.models.account.GeneralLedger;
 import org.pahappa.systems.kimanyisacco.models.chat.Chat;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.models.users.User;
@@ -15,6 +18,9 @@ public class SessionConfiguration {
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Patient.class);
             configuration.addAnnotatedClass(Chat.class);
+            configuration.addAnnotatedClass(AccountReceivable.class);
+            configuration.addAnnotatedClass(AccountPayable.class);
+            configuration.addAnnotatedClass(GeneralLedger.class);
             return configuration.buildSessionFactory();
         }catch (Throwable e){
             System.err.println("Failed to create session Factory: " +e);

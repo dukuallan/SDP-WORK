@@ -10,7 +10,7 @@
     <ui:define name="content">
         <h:panelGroup rendered="#{not empty sessionScope.User}">
         <h:form id="chatForm">
-            <p:growl id="messages" showDetail="true" />
+            <p:growl id="messages" showDetail="true"/>
             <div class="widget-chat card justify-content-center m-4">
                 <p:scrollPanel styleClass="border-0 " style="height: 90%" rendered="#{chatBean.chats.size() !=0}">
                     <ui:repeat var="msg" value="#{chatBean.chats}">
@@ -38,6 +38,9 @@
                     <div class="p-col-6 ">
                         <p:outputLabel value="Select receivers from here"/>
                         <p:selectManyCheckbox id="grid2" value="#{chatBean.selectedReceivers}" layout="responsive"
+                                              required="true"
+                                              requiredMessage="Please select atleast one receiver"
+                                              update="chatForm:messages"
                                               columns="3">
                             <f:selectItems value="#{chatBean.receivers}" var="receiver"
                                            itemLabel="#{receiver.lastname} #{receiver.department}"

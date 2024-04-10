@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Design-Patterns.iml" filepath="$PROJECT_DIR$/.idea/Design-Patterns.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sacco-Frontend/Sacco-Frontend.iml" filepath="$PROJECT_DIR$/Sacco-Frontend/Sacco-Frontend.iml" />
     </modules>
   </component>
 </project>

@@ -5,6 +5,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.pahappa.systems.kimanyisacco.models.chat.Chat;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.models.users.User;
+import org.pahappa.systems.kimanyisacco.models.*;
 
 public class SessionConfiguration {
     private final static SessionFactory sessionFactory = buildSessionFactory();
@@ -13,6 +14,9 @@ public class SessionConfiguration {
             AnnotationConfiguration configuration = new AnnotationConfiguration();
             configuration.configure();
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(AccountPayable.class);
+            configuration.addAnnotatedClass(GeneralLedger.class);
+            configuration.addAnnotatedClass(AccountReceivable.class);
             configuration.addAnnotatedClass(Patient.class);
             configuration.addAnnotatedClass(Chat.class);
             return configuration.buildSessionFactory();

@@ -15,4 +15,5 @@ public interface HospitalPatientService extends PatientService{
     List<Patient> getDischargedPatients();
 
     List<Patient> getPatientsByWard(String wardName);
+    public List<Patient> getAllPatients();
 }

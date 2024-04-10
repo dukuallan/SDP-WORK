@@ -14,6 +14,7 @@ public class Navigation {
     private final String users= "/pages/users/Users.xhtml";
     private final String addUser= "/pages/users/AddUser.xhtml";
     private final String patients = "/pages/Patient/PatientInformation.xhtml";
+    private final String viewPatients = "/pages/Patient/PatientView.xhtml";
     public String getUsers() {
         return users;
     }
@@ -28,5 +29,9 @@ public class Navigation {
 
     public String getDashboard() {
         return dashboard;
+    }
+
+    public String getViewPatients() {
+        return viewPatients;
     }
 }

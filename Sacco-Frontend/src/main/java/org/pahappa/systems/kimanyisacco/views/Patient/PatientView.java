@@ -7,7 +7,6 @@ import org.pahappa.systems.kimanyisacco.constants.Medication;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 import org.pahappa.systems.kimanyisacco.services.PatientService;
 import org.pahappa.systems.kimanyisacco.services.impl.PatientServiceFactory;
-import org.pahappa.systems.kimanyisacco.services.impl.PatientServiceImpl;
 
 
 import javax.faces.application.FacesMessage;
@@ -28,7 +27,6 @@ public class PatientView {
 
     public PatientView(){
         this.patient = new Patient();
-        this.patientService = new PatientServiceImpl();
     }
 
     public void setPatient(Patient patient){

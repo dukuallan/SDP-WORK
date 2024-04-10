@@ -10,7 +10,7 @@ import java.util.List;
 public class HospitalPatientServiceImpl implements HospitalPatientService {
     @Override
     public void savePatient(Patient patient) {
-        HospitalPatientService.patientDao.save(patient);
+        patientDao.save(patient);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HospitalPatientServiceImpl implements HospitalPatientService {
 
     @Override
     public List<Patient> getAllPatients() {
-        return null;
+     return patientDao.getAllPatients();
     }
 
     @Override

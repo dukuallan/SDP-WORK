@@ -33,14 +33,37 @@
                     <p:menuitem id="dashboard" value="Dashboard"
                                 icon="pi pi-fw pi-home" outcome="/pages/dashboard/Dashboard"/>
                     <p:menuitem id="chat" value="ChatPage" icon="pi pi-check"
-                                outcome="/pages/chat/Chat"
-                    />
+                                outcome="/pages/chat/Chat"/>
+
                     <p:menuitem id="patient" value="Patients"
                                 icon="pi pi-fw pi-home" outcome="/pages/Patient/PatientInformation"/>
                     <p:menuitem id="users" value="Users" outcome="/pages/users/Users"
                                 icon="pi pi-users"/>
                     <p:menuitem id="logout" value="Logout" icon="fa fa-fw fa-sign-out"
                                 url="#{request.contextPath}/ServiceLogout"/>
+
+                    <p:submenu id="patientsInfo" label="Patients Info"
+                               icon="pi pi-user">
+
+                        <p:menuitem id="Patients" value="Patients"
+                                    icon="pi pi-user" outcome="/pages/Patient/PatientInformation"/>
+
+                        <p:menuitem id="viewPatients" value="View Patients"
+                                    icon="pi pi-list" outcome="/pages/Patient/ViewPatients.xhtml"/>
+                    </p:submenu>
+
+                    <p:submenu id="Accounts" label="Accounts Mgt"
+                               icon="pi pi pi-wallet">
+
+                        <p:menuitem id="accountPayable" value="Account Payable"
+                                    icon="pi pi-money-bill" outcome="/pages/accountPayable/AccountsPayable.xhtml"/>
+
+                        <p:menuitem id="accountReceivable" value="Account Receivable"
+                                    icon="pi pi-money-bill" outcome="/pages/accountReceivable/AccountReceivable.xhtml"/>
+
+                        <p:menuitem id="generalLedger" value="General Ledger"
+                                    icon="pi pi-fw pi-book" outcome="/pages/generalLedger/GeneralLedger.xhtml"/>
+                    </p:submenu>
 
                 </pc:menu>
             </h:form>

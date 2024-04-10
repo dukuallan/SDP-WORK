@@ -24,4 +24,13 @@ public class ChatServiceImpl implements ChatService {
     public boolean deleteChat(Long chat_id) {
         return chatDao.deleteChat(chat_id);
     }
+
+    @Override
+    public void update(Chat chat) {
+        try {
+            chatDao.save(chat);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }

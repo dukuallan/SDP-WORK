@@ -15,13 +15,15 @@ import javax.faces.context.FacesContext;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ManagedBean
 @SessionScoped
 public class ChatBean{
     private List<User> receivers=new ArrayList<>();;
-    private List<User> selectedReceivers= new ArrayList<>();
+    private String[] selectedReceivers;
     private UserService userService;
     private ChatService chatService;
     private Chat chat;
@@ -31,8 +33,7 @@ public class ChatBean{
  public void init() {
      this.userService =new UserServiceImpl();
      this.chatService = new ChatServiceImpl();
-     this.receivers = userService.getAllUsers();
-     this.chats=getChatsByUser();
+     reloadView();
      this.chat=new Chat();
 
  }
@@ -40,14 +41,16 @@ public class ChatBean{
      LocalDateTime sent= LocalDateTime.now();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         User user1 = (User) facesContext.getExternalContext().getSessionMap().get("User");
-        System.out.println("selected users size "+selectedReceivers.size());
-     if(user1 !=null && !selectedReceivers.isEmpty()) {
-         for (User user : selectedReceivers) {
-             System.out.println("Logged in user "+user1.getLastname());
-             chat.setSender(user1);
-             chat.setSentTime(sent);
+        System.out.println("selected users size "+selectedReceivers.length);
+     if(user1 !=null && (selectedReceivers.length !=0)) {
+         for (String user : selectedReceivers) {
+             System.out.println("Logged in user "+user1.getLastname()+"Email"+user);
+             this.chat.setReceiver(userService.getUserByEmail(user));
+             this.chat.setSender(user1);
+           this.chat.setSentTime(sent);
              try {
-                 chatService.saveChat(chat);
+                 chatService.saveChat(this.chat);
+                 reloadView();
              } catch (Exception e) {
                  MessageComposer.warn("Failure!", "Chat not saved to the database");
              }
@@ -70,13 +73,6 @@ public class ChatBean{
         this.receivers = receivers;
     }
 
-    public List<User> getSelectedReceivers() {
-        return selectedReceivers;
-    }
-
-    public void setSelectedReceivers(List<User> selectedReceivers) {
-        this.selectedReceivers = selectedReceivers;
-    }
 
     public List<Chat> getChats() {
         return chats;
@@ -85,10 +81,14 @@ public class ChatBean{
     public void setChats(List<Chat> chats) {
         this.chats = chats;
     }
-    public List<Chat> getChatsByUser(){
+    public void getChatsByUser(){
         FacesContext facesContext = FacesContext.getCurrentInstance();
         User user = (User) facesContext.getExternalContext().getSessionMap().get("User");
-        return chatService.getAllChats(user);
+        this.chats= chatService.getAllChats(user);
+    }
+    public void reloadView(){
+        this.receivers = userService.getAllUsers();
+        getChatsByUser();
     }
 
     public Chat getChat() {
@@ -97,5 +97,13 @@ public class ChatBean{
 
     public void setChat(Chat chat) {
         this.chat = chat;
+ }
+
+    public String[] getSelectedReceivers() {
+        return selectedReceivers;
+    }
+
+    public void setSelectedReceivers(String[] selectedReceivers) {
+        this.selectedReceivers = selectedReceivers;
     }
 }

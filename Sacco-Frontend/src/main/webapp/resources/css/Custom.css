@@ -1,24 +1,26 @@
-.msg1-card {
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+.chat-card {
+    display: flex; /* Make the card container a flexbox */
+    flex-direction: column; /* Stack content vertically */
+    padding: 1rem; /* Add some padding inside the card */
+    border-radius: 5px; /* Add rounded corners */
+    margin-bottom: 1rem; /* Add space between cards */
 }
 
-.msg1-header h5, .msg1-time {
-    color: black;
+.chat-own { /* Style for messages from logged-in user */
+    background-color: #e0f2ff; /* Light blue background */
+    align-self: flex-end; /* Align to right side of container */
 }
 
-.msg1-body p {
-    color: black;
+.chat-from { /* Style for messages from other users */
+    background-color: #fff; /* White background */
+    align-self: flex-start; /* Align to left side of container */
 }
 
-.msg1-own {
-    background-color: lightgrey; /* Light green background for sent msg1s */
-    text-align: right;
+.chat-header {
+    margin-bottom: 0.5rem; /* Add some space below the header */
 }
 
-.msg1-from {
-    background-color: #ffffff; /* White background for received msg1s */
-    text-align: left;
+.chat-body {
+    flex: 1; /* Allow message body to expand */
+    word-wrap: break-word; /* Allow long messages to wrap to next line */
 }

@@ -11,15 +11,15 @@
         <h:panelGroup rendered="#{not empty sessionScope.User}">
         <h:form id="chatForm">
             <p:growl id="messages" showDetail="true"/>
-            <div class="widget-chat card justify-content-center m-4">
-                <p:scrollPanel styleClass="border-0 " style="height: 90%" rendered="#{chatBean.chats.size() !=0}">
+            <div class=" card justify-content-center m-4">
+                <p:scrollPanel style="height: 400px;border: none" rendered="#{chatBean.chats.size() !=0}">
                     <ui:repeat var="msg" value="#{chatBean.chats}">
-                        <div class="msg1-card #{msg.sender.getLastname() == sessionScope.User.getLastname() ? 'msg1-own' : 'msg1-from'} m-4">
-                            <div class="msg1-header">
-                                <h5>From: #{msg.sender} Sent: #{chatBean.getFormattedSentTime(msg.sentTime)}</h5>
+                        <div class="card shadow-2 chat-card #{msg.sender.getLastname() == sessionScope.User.getLastname() ? 'chat-own' : 'chat-from'} m-4">
+                            <div class="chat-header">
+                                <h5>From: #{msg.sender.lastname} Sent: #{chatBean.getFormattedSentTime(msg.sentTime)}</h5>
                             </div>
-                            <div class="msg1-body">
-                                <p:outputLabel>#{msg.description}</p:outputLabel>
+                            <div class="chat-body">
+                                <p:outputLabel>Message: #{msg.description}</p:outputLabel>
                             </div>
                         </div>
                     </ui:repeat>
@@ -32,27 +32,31 @@
                     </div>
                 </p:outputPanel>
                 <div class="p-col-12 m-2">
-                    <p:inputTextarea value="#{chatBean.chat.description}" autoResize="true" style="border-radius: 20px" styleClass="p-col-12"/>
+                    <p:inputTextarea id="chat" value="#{chatBean.chat.description}" autoResize="true" style="border-radius: 20px" styleClass="p-col-12">
+                        <p:ajax update="chat"/>
+                    </p:inputTextarea>
                 </div>
                 <div class="p-col-12 p-d-flex m-2">
                     <div class="p-col-6 ">
                         <p:outputLabel value="Select receivers from here"/>
-                        <p:selectManyCheckbox id="grid2" value="#{chatBean.selectedReceivers}" layout="responsive"
-                                              required="true"
+                        <p:selectManyCheckbox id="receivers" value="#{chatBean.selectedReceivers}"
                                               requiredMessage="Please select atleast one receiver"
-                                              update="chatForm:messages"
-                                              columns="3">
+                                              update="chatForm:messages">
                             <f:selectItems value="#{chatBean.receivers}" var="receiver"
                                            itemLabel="#{receiver.lastname} #{receiver.department}"
-                                           itemValue="#{receiver}"/>
+                                           itemValue="#{receiver.email}"/>
+                            <p:ajax update="receivers"/>
                         </p:selectManyCheckbox>
+
                     </div>
 
                     <div class="p-col-6 ">
                         <p:commandButton value="Send"
                                          process="@this"
                                          action="#{chatBean.sendMessage}"
-                                         styleClass="p-col-6 ml-2" update="@form" />
+                                         styleClass="p-col-6 ml-2" update="chatForm" >
+                            <p:ajax event="dialogReturn" update="chatForm"/>
+                        </p:commandButton>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,13 @@
 package org.pahappa.systems.kimanyisacco.dao.chatDao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.pahappa.systems.kimanyisacco.config.SessionConfiguration;
 import org.pahappa.systems.kimanyisacco.models.chat.Chat;
+import org.pahappa.systems.kimanyisacco.models.users.User;
 
 import java.util.List;
 
@@ -25,12 +27,14 @@ public class ChatDao {
             throw new Exception(e.getMessage());
         }
     }
-    public List<Chat> getAllChats() {
+    public List<Chat> getAllChats(User user) {
         Session session = SessionConfiguration.getSessionFactory().openSession();
         try {
-            return session.createCriteria(Chat.class).list();
+            Query query = session.createQuery("FROM Chat WHERE sender = :user");
+            query.setParameter("user", user);
+            return (List<Chat>) query.list();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("No chats available");
             return null;
         } finally {
             if (session != null && session.isOpen()) {

@@ -4,7 +4,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.pahappa.systems.kimanyisacco.config.SessionConfiguration;
+<<<<<<< HEAD
 import org.pahappa.systems.kimanyisacco.models.AccountReceivable;
+=======
+import org.pahappa.systems.kimanyisacco.models.account.AccountReceivable;
+>>>>>>> origin/ft-chat
 
 import java.util.List;
 

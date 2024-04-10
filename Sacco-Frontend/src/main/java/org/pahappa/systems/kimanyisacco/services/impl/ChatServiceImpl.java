@@ -2,6 +2,7 @@ package org.pahappa.systems.kimanyisacco.services.impl;
 
 import org.pahappa.systems.kimanyisacco.dao.chatDao.ChatDao;
 import org.pahappa.systems.kimanyisacco.models.chat.Chat;
+import org.pahappa.systems.kimanyisacco.models.users.User;
 import org.pahappa.systems.kimanyisacco.services.ChatService;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<Chat> getAllChats() {
-        return chatDao.getAllChats();
+    public List<Chat> getAllChats(User user) {
+        return chatDao.getAllChats(user);
     }
 
     @Override

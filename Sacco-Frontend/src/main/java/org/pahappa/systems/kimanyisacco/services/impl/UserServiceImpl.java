@@ -32,8 +32,9 @@ public class UserServiceImpl implements UserService {
         return userDAO.getUsers();
     }
     // removing member in the database
-    public boolean deleteUser(Long user_id) {
-        return userDAO.deleteUser(user_id);
+    public boolean deleteUser(String email) {
+        System.out.println("Deleting a user");
+        return userDAO.deleteUser(email);
     }
 
     @Override
@@ -63,5 +64,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkPhone(String phone) {
         return userDAO.checkPhone(phone);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email);
     }
 }

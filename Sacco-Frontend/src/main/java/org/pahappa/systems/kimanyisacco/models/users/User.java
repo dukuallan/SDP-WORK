@@ -3,6 +3,7 @@ package org.pahappa.systems.kimanyisacco.models.users;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "usersTable")
@@ -94,5 +95,41 @@ public class User implements Serializable {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getStatus() == user.getStatus() &&
+                Objects.equals(getFirstname(), user.getFirstname())
+                && Objects.equals(getLastname(), user.getLastname())
+                && Objects.equals(getPhone(), user.getPhone())
+                && Objects.equals(getDepartment(), user.getDepartment())
+                && Objects.equals(getEmail(), user.getEmail())
+                && Objects.equals(getDob(), user.getDob())
+                && Objects.equals(getPassword(), user.getPassword())
+                && Objects.equals(getUser_id(), user.getUser_id());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstname(), getLastname(), getPhone(), getDepartment(), getEmail(), getDob(), getPassword(), getStatus(), getUser_id());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", department='" + department + '\'' +
+                ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", password='" + password + '\'' +
+                ", status=" + status +
+                ", user_id=" + user_id +
+                '}';
     }
 }

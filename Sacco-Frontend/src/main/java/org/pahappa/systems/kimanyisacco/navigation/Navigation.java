@@ -15,6 +15,7 @@ public class Navigation {
     private final String addUser= "/pages/users/AddUser.xhtml";
     private final String patients = "/pages/Patient/PatientInformation.xhtml";
     private final String viewPatients = "/pages/Patient/PatientView.xhtml";
+    private final String login= "/pages/welcome/Welcome.xhtml";
     public String getUsers() {
         return users;
     }
@@ -34,4 +35,7 @@ public class Navigation {
     public String getViewPatients() {
         return viewPatients;
     }
-}
+        public String getLogin () {
+            return login;
+        }
+    }

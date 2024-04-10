@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ChatService {
     void saveChat(Chat chat) throws Exception;
-    List<Chat> getAllChats();
+    List<Chat> getAllChats(User user);
     boolean deleteChat(Long chat_id);
 }

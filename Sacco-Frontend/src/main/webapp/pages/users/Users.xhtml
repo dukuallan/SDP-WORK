@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/californiatemplate/template.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msg" showDetail="true"/>
+            <h4 class="flex justify-content-center" >USERS OF THE SYSTEM</h4>
+            <div class="p-field p-d-flex justify-content-end">
+                <p:linkButton value="AddUser" outcome="#{navigation.addUser}" icon="pi pi-plus"/>
+            </div>
+            <p:dataTable widgetVar="dtlist" var="user" value="#{userView.userList}" id="UserTable" rowIndexVar="count" showGridlines="true" allowUnsorting="true" sortMode="single">
+                  <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                     <p:inputText id="globalFilter" onkeyup="PF('dtlist').filter()" placeholder="Search" />
+                  </span>
+                <p:column headerText="Number" styleClass="col-number">
+                    <h:outputText value="#{count + 1}" />
+                </p:column>
+                <p:column headerText="Firstname" filterBy="">
+                    <h:outputText value="#{user.firstname}" />
+                </p:column>
+                <p:column headerText="Lastname" filterBy="" >
+                    <h:outputText value="#{user.lastname}" />
+                </p:column>
+                <p:column headerText="Phone">
+                    <h:outputText value="#{user.phone}" />
+                </p:column>
+                <p:column  headerText="Department" filterBy="">
+                    <h:outputText value="#{user.department}" />
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{user.email}" />
+                </p:column>
+                <p:column headerText="Action">
+                    <div class="flex justify-content-center gap-4">
+                        <p:commandButton icon="pi pi-eye"
+                                         action="#{userRegister.editUser(user)}"
+                                         update="UserTable :form:msg">
+
+                        </p:commandButton>
+                        <p:commandButton action="#{userView.deleteUser(user)}" update="UserTable form:msg" icon="pi pi-trash" styleClass="ui-button-danger" >
+                            <p:confirm type="popup" header="Confirmation" message="Do you want to remove this member?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="250">
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

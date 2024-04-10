@@ -1,0 +1,24 @@
+.msg1-card {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.msg1-header h5, .msg1-time {
+    color: black;
+}
+
+.msg1-body p {
+    color: black;
+}
+
+.msg1-own {
+    background-color: lightgrey; /* Light green background for sent msg1s */
+    text-align: right;
+}
+
+.msg1-from {
+    background-color: #ffffff; /* White background for received msg1s */
+    text-align: left;
+}

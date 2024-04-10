@@ -47,7 +47,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>pages/dashboard/Dashboard.xhtml</welcome-file>
+        <welcome-file>pages/welcome/Welcome.xhtml</welcome-file>
     </welcome-file-list>
 
 

@@ -2,77 +2,70 @@ package org.pahappa.systems.kimanyisacco.views.authentication;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.pahappa.systems.kimanyisacco.controllers.Hyperlinks;
-import org.pahappa.systems.kimanyisacco.models.Member;
-import org.pahappa.systems.kimanyisacco.services.MemberService;
-import org.pahappa.systems.kimanyisacco.services.impl.MemberServiceImpl;
+import org.pahappa.systems.kimanyisacco.models.users.User;
+import org.pahappa.systems.kimanyisacco.services.UserService;
+import org.pahappa.systems.kimanyisacco.services.impl.UserServiceImpl;
+import org.pahappa.systems.kimanyisacco.views.Messages.MessageComposer;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.io.IOException;
 
 @ManagedBean(name = "loginForm")
 @SessionScoped
 public class LoginForm {
-    private Member member;
-    private List<Member> members ;
-    private MemberService memberService;
-    public LoginForm(){
-        this.member = new Member();
-        this.memberService = new MemberServiceImpl();
+    private User user;
+    private final UserService userservice;
+
+    public User getUser() {
+        return user;
     }
-    private Member acceptedMember;
-    public void doLogin() throws Exception {
-        members = memberService.getMembers();
-        for (Member selectedMember : members) {
-            if (BCrypt.checkpw(this.member.getPassword(), selectedMember.getPassword( )) && this.member.getEmail().trim().equals(selectedMember.getEmail())) {
-                acceptedMember = selectedMember;
-                break;
-            }
-        }
-        if (acceptedMember != null) {
-            String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            session.setAttribute("member", acceptedMember.getMemberId());
-            FacesContext.getCurrentInstance().getExternalContext().redirect(baseUrl + Hyperlinks.dashbord);
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LoginForm() {
+
+        this.user = new User();
+        this.userservice = new UserServiceImpl();
+    }
+
+    // Perform login
+    public void doLogin() throws IOException {
+        String email = user.getEmail();
+        String pass = user.getPassword();
+
+        User user1 = userservice.getUserByEmail(email);
+        if ((user1 != null) && user1.getEmail().equals(email) && BCrypt.checkpw(pass, user1.getPassword())) {
+            if (user1.getStatus() == 0) {
+                HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext()
+                        .getSession(true);
+                session.setAttribute("User", user1);
+                String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+                FacesContext.getCurrentInstance().getExternalContext().redirect(baseUrl + Hyperlinks.dashboard);
+            } else {
+                MessageComposer.warn("Failure","Your account is frozen contact the admin");
+                }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials.", "Please try again."));
-        }
-        System.out.println(acceptedMember);
-    }
-    public void doAdminLogin() throws Exception {
-        String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        if(this.member.getEmail().equals("admin@gmail.com") && this.member.getPassword().equals("1234")){
-            FacesContext.getCurrentInstance().getExternalContext().redirect(baseUrl + Hyperlinks.admin);
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials.", "Please try again."));
+           MessageComposer.warn("Failure","Invalid Credentials!");
         }
     }
-    public void logout() throws Exception {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        session.invalidate();
-        String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-        FacesContext.getCurrentInstance().getExternalContext().redirect(baseUrl + Hyperlinks.landing);
-        System.out.println(member);
-    }
-    public Member getMember() {
-        return member;
-    }
-    public void setMember(Member member) {
-        this.member = member;
-    }
-    public List<Member> getMembers() {
-        return members;
-    }
-    public void setMembers(List<Member> members) {
-        this.members = members;
-    }
-    public Member getAcceptedMember() {
-        return acceptedMember;
-    }
-    public void setAcceptedMember(Member acceptedMember) {
-        this.acceptedMember = acceptedMember;
+
+    // perfom logout
+    public void logout() {
+        try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            if (session != null) {
+                session.invalidate();
+                String baseUrl = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+                FacesContext.getCurrentInstance().getExternalContext().redirect(baseUrl + Hyperlinks.login);
+            }
+        } catch (IOException e) {
+            MessageComposer.error("Failed","Failed to Logout,An error occurred!");
+            e.printStackTrace();
+        }
     }
 }

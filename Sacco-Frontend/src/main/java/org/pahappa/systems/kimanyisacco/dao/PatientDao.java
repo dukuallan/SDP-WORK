@@ -6,6 +6,8 @@ import org.hibernate.Transaction;
 import org.pahappa.systems.kimanyisacco.config.SessionConfiguration;
 import org.pahappa.systems.kimanyisacco.models.Patient;
 
+import java.util.List;
+
 public class PatientDao {
     Transaction transaction = null;
     Session session = null;
@@ -32,5 +34,21 @@ public class PatientDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Patient> getAllPatients() {
+        List<Patient> patients = null;
+        try {
+            session = SessionConfiguration.getSessionFactory().openSession();
+            Query query = session.createQuery("FROM Patient");
+            patients = (List<Patient>) query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return patients;
     }
 }

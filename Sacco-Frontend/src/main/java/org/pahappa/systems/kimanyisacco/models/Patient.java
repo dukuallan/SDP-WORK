@@ -24,6 +24,7 @@ public class Patient {
     private String email;
 
     private String facilityType;
+    private String medication;
 
     private String district;
 
@@ -146,6 +147,14 @@ public class Patient {
     public void setPrescription(String prescription) {
         this.prescription = prescription;
     }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "medication")
+    public String getMedication() {
+        return medication;
+    }
 
+    public void setMedication(String medication) {
+        this.medication = medication;
+    }
 }
 

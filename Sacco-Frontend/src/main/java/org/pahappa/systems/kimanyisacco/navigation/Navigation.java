@@ -8,78 +8,34 @@ import javax.faces.bean.ManagedBean;
  * It is to help us navigate between the pages in the application easily.
  */
 @ManagedBean(name = "navigation")
-@ApplicationScoped //There should be only one instance of the class created for the entire application
+@ApplicationScoped
 public class Navigation {
-
-    private final String dashboard = "/pages/dashboard/MemberDashboard.xhtml";
-    private final String login = "/pages/login/Login.xhtml";
-
-    private final String statistics = "/pages/admin/Statistics.xhtml";
-
-    private final String admin = "/pages/admin/MemberVerification.xhtml";
-
-    private final String register = "/pages/login/register.xhtml";
-
-    private final String landing = "/pages/landing/Landing.xhtml";
-
-    private final String accountInfo = "/pages/dashboard/MemberAccountInfo.xhtml";
-
-    private final String transaction = "/pages/dashboard/MemberTransaction.xhtml";
-    private final String recentStat= "/pages/dashboard/MemberTransactionRecords.xhtml";
-    private final String approval= "/pages/admin/WithdrawApproval.xhtml";
-    private final String approvalList= "/pages/admin/WithdrawApprovalRecords.xhtml";
-    private final String adminLogin = "/pages/login/AdminLogin.xhtml";
+    private final String dashboard="/pages/dashboard/Dashboard.xhtml";
+    private final String users= "/pages/users/Users.xhtml";
+    private final String addUser= "/pages/users/AddUser.xhtml";
     private final String patients = "/pages/Patient/PatientInformation.xhtml";
-
-    public String getDashboard() {
-        return dashboard;
+    private final String viewPatients = "/pages/Patient/PatientView.xhtml";
+    private final String login= "/pages/welcome/Welcome.xhtml";
+    public String getUsers() {
+        return users;
     }
 
-    public String getLanding() {
-        return landing;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getRegister() {
-        return register;
-    }
-
-    public String getStatistics() {
-        return statistics;
-    }
-
-    public String getAdmin() {
-        return admin;
-    }
-
-    public String getAccountInfo() {
-        return accountInfo;
-    }
-
-    public String getTransaction() {
-        return transaction;
-    }
-
-    public String getRecentStat() {
-        return recentStat;
-    }
-
-    public String getApproval() {
-        return approval;
-    }
-
-    public String getApprovalList() {
-        return approvalList;
-    }
-
-    public String getAdminLogin() {
-        return adminLogin;
+    public String getAddUser() {
+        return addUser;
     }
 
     public String getPatients() {
         return patients;
     }
-}
+
+    public String getDashboard() {
+        return dashboard;
+    }
+
+    public String getViewPatients() {
+        return viewPatients;
+    }
+        public String getLogin () {
+            return login;
+        }
+    }

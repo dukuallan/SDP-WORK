@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/californiatemplate/template.xhtml">
+    <ui:define name="head">
+        <style>
+            .ui-inputfield{
+                width: -webkit-fill-available;
+            }
+            .formgrid {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .ui-card {
+                width: 80%;
+                margin: 0 auto;
+            }
+        </style>
+
+    </ui:define>
+    <ui:define name="content">
+        <h:form styleClass="formgrid justify-content-center">
+            <p:growl showSummary="true" severity="warn"/>
+            <div class="ui-card justify-content-center">
+                    <div style="color: #529381;text-align: center;"><h2><b>User Registration Form</b></h2></div>
+                     <div class="col-12 flex">
+                        <div class=" col-6 ">
+                            <label for="firstname">First Name</label>
+                            <p:inputText id="firstname" value="#{userRegister.user.firstname}"
+                                         validatorMessage="Must begin with a character"
+                                         required="true">
+                                <f:validateRegex pattern="^[^\s]+$"/>
+                            </p:inputText>
+                        </div>
+                        <div class="col-6 ">
+                            <label for="lastname">Last Name</label>
+                            <p:inputText  id="lastname" value="#{userRegister.user.lastname}"
+                                          validatorMessage="Must begin with a character"
+                                          required="true" >
+                                <f:validateRegex pattern="^[^\s]+$"/>
+                                </p:inputText>
+                        </div>
+                     </div>
+                    <div class="col-12 flex">
+                        <div class="col-6 ">
+                            <label for="phone">Phone</label><br/>
+                            <p:inputText id="phone" value="#{userRegister.user.phone}" placeholder="2567xxxxxxxx"
+                                         validatorMessage="Shop contact must be in this format 2567xxxxxxxx"
+                                         required="true">
+                                <f:validateRegex pattern="^2567\d{8}$" />
+                            </p:inputText>
+                        </div>
+                        <div class="col-6 ">
+                            <label for="department">Department</label>
+                            <p:selectOneMenu value="#{userRegister.user.department}" id="department">
+                                <f:selectItem itemLabel="Select Facility Type" itemValue="#{null}" />
+                                <f:selectItems value="#{userRegister.departmentList}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-12 flex">
+                        <div class=" col-6 ">
+                            <label for="email">Email</label><br/>
+                            <p:inputText id="email" value="#{userRegister.user.email}"
+                                         validatorMessage="Enter Valid email"
+                                         required="true">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            </p:inputText>
+                        </div>
+                        <div class=" col-6 ">
+                            <label for="dob">Date of Birth</label>
+                            <p:calendar pattern="dd/MM/yyy" mindate="01/01/1975" maxdate="31/12/2005"
+                                        value="#{userRegister.user.dob}"
+                                        id="dob" style="width:auto" required="true" />
+                        </div>
+                    </div>
+                    <div class="col-12 flex">
+                        <div class="col-6 ">
+                            <label for="password">Password</label>
+                            <p:password label="Password" id="password" match="confirmPassword"
+                                        validatorMessage="Passwords doesnt match"
+                                        value="#{userRegister.user.password}"
+                                        placeholder="Enter your password min-6"
+                                        required="true"   >
+                                <f:validateLength minimum="6" maximum="32"/>
+                            </p:password>
+                            <p:message for="password" />
+                        </div>
+                        <div class="col-6 ">
+                        <label>Repeat password</label>
+                        <p:password id="confirmPassword" name="confirmPassword"
+                                    required="true" placeholder="Confirm your password"
+                                    styleClass="form-control"
+                                    value="#{userRegister.confirmPassword}">
+                            <f:validateLength minimum="6" maximum="32"/>
+                        </p:password>
+                        </div>
+                    </div>
+                        <div class="col-12 justify-content-center" style="text-align: center;">
+                            <p:linkButton value="Cancel" icon="pi pi-times" outcome="#{navigation.users}" styleClass="mr-2 ui-button-danger" style="width: auto"/>
+                            <p:commandButton icon="pi pi-save"
+                                             action="#{userRegister.saveUser()}"
+                                             value="save" styleClass="mr-2" style="width: auto"  />
+                        </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

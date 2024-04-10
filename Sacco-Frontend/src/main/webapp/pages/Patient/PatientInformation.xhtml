@@ -29,6 +29,13 @@
                     </p:selectOneMenu>
                 </div>
                 <div class="ui-col-12 ui-md-6 p-lg-3">
+                    <h5>Medication</h5>
+                    <p:selectOneMenu value="#{patients.patient.medication}">
+                        <f:selectItem itemLabel="Select Medication" itemValue="#{null}" />
+                        <f:selectItems value="#{patients.medications}" />
+                    </p:selectOneMenu>
+                </div>
+                <div class="ui-col-12 ui-md-6 p-lg-3">
                     <h5>District</h5>
                     <p:selectOneMenu value="#{patients.patient.district}">
                         <f:selectItem itemLabel="Select District" itemValue="#{null}" />

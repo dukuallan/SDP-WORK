@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/californiatemplate/template.xhtml">
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="Custom.css"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:panelGroup rendered="#{not empty sessionScope.User}">
+        <h:form id="chatForm">
+            <p:growl id="messages" showDetail="true"/>
+            <div class="widget-chat card justify-content-center m-4">
+                <p:scrollPanel styleClass="border-0 " style="height: 90%" rendered="#{chatBean.chats.size() !=0}">
+                    <ui:repeat var="msg" value="#{chatBean.chats}">
+                        <div class="msg1-card #{msg.sender.getLastname() == sessionScope.User.getLastname() ? 'msg1-own' : 'msg1-from'} m-4">
+                            <div class="msg1-header">
+                                <h5>From: #{msg.sender} Sent: #{chatBean.getFormattedSentTime(msg.sentTime)}</h5>
+                            </div>
+                            <div class="msg1-body">
+                                <p:outputLabel>#{msg.description}</p:outputLabel>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </p:scrollPanel>
+                <p:outputPanel id="noChats" rendered="#{chatBean.chats.size()==0}" style="width:inherit">
+                    <div class="text-center mt-4">
+                        <i class="pi pi-check" style="font-size: 3em; color: lightgrey;"/>
+                        <br/>
+                        <p:outputLabel value="No Chats for you yet!."/>
+                    </div>
+                </p:outputPanel>
+                <div class="p-col-12 m-2">
+                    <p:inputTextarea value="#{chatBean.chat.description}" autoResize="true" style="border-radius: 20px" styleClass="p-col-12"/>
+                </div>
+                <div class="p-col-12 p-d-flex m-2">
+                    <div class="p-col-6 ">
+                        <p:outputLabel value="Select receivers from here"/>
+                        <p:selectManyCheckbox id="grid2" value="#{chatBean.selectedReceivers}" layout="responsive"
+                                              required="true"
+                                              requiredMessage="Please select atleast one receiver"
+                                              update="chatForm:messages"
+                                              columns="3">
+                            <f:selectItems value="#{chatBean.receivers}" var="receiver"
+                                           itemLabel="#{receiver.lastname} #{receiver.department}"
+                                           itemValue="#{receiver}"/>
+                        </p:selectManyCheckbox>
+                    </div>
+
+                    <div class="p-col-6 ">
+                        <p:commandButton value="Send"
+                                         process="@this"
+                                         action="#{chatBean.sendMessage}"
+                                         styleClass="p-col-6 ml-2" update="@form" />
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{empty sessionScope.User}">
+            <p>Access denied. Please wait, you'll be redirected to the login page...</p>
+            <script>
+                setTimeout(function() {
+                    window.location.href = "#{request.contextPath}/#{navigation.login}";
+                }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
+            </script>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
